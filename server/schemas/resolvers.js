@@ -4,16 +4,13 @@ const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
     Query: {
-        me: async (parent, { username }, context) => {
-            // If username is provided, search by username, if not, search by _id
-            const params = username ? { username } : {_id: context.user._id};
-            // Find one user
-            const foundUser =  await User.findOne(params);
-            // Throw error if no user is found
-            if(!foundUser) {
-                throw new AuthenticationError("Cannot find a user with this id!");
+        me: async (parent, args, context) => {
+
+            if (context.user) {
+                return User.findOne({ _id: context.user._id });
             }
-            return foundUser 
+            // Throw error if no user is found
+            throw new AuthenticationError("Cannot find a user with this id!");
         }
     },
 
