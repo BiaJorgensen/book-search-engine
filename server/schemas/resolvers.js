@@ -5,7 +5,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const resolvers = {
     Query: {
         me: async (parent, { username }, context) => {
-            // If username is provided, search by username, if not, search my _id
+            // If username is provided, search by username, if not, search by _id
             const params = username ? { username } : {_id: context.user._id};
             // Find one user
             const foundUser =  await User.findOne(params);
@@ -47,7 +47,7 @@ const resolvers = {
                 // Add book's info to User
                 { $addToSet: { savedBooks: input } },
                 // Return updated values and run validators
-                { new: true, runValidators: true }
+                { new: true }
               );
         },
         removeBook: async(parent, { bookId }, context ) => {
