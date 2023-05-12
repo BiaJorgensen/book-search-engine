@@ -39,6 +39,7 @@ const LoginForm = () => {
       window.location.assign("/");
     } catch (err) {
       console.error(err);
+      console.log(error)
       setShowAlert(true);
     }
 
@@ -49,7 +50,7 @@ const LoginForm = () => {
     });
   };
   if (data) {
-    const { token, user } = data.login;
+    const { token } = data.login;
     Auth.login(token);
   }
 
