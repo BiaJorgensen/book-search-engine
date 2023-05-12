@@ -7,37 +7,28 @@ import {
   Card,
   Row
 } from 'react-bootstrap';
-
 import Auth from '../utils/auth';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-
 // Using mutation
 import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutation';
-
 // Using query
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
-
 
 const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
-
   const { loading, data } = useQuery(GET_ME)
   const userData = data?.me || []
-
-
-
-
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-  // Using mutation
-  const [saveBook, { error }] = useMutation(SAVE_BOOK, {
+  // Using mutation to save book to user's profile
+  const [saveBook] = useMutation(SAVE_BOOK, {
+    // Using update to modifty GET_ME query with new data (adding book)
     update(cache, { data: { saveBook }}) {
       try {
         cache.writeQuery({
@@ -46,8 +37,8 @@ const SearchBooks = () => {
         })
       } catch (e) {
         console.error(e);
+      }
     }
-  }
   });
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
@@ -59,7 +50,6 @@ const SearchBooks = () => {
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
     if (!searchInput) {
       return false;
     }
@@ -92,7 +82,6 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -105,10 +94,6 @@ const SearchBooks = () => {
         variables: { input: bookToSave },
         
       });
-      console.log(userData);
-      
-      
-
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
