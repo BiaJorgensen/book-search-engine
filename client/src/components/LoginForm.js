@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutation';
-// import { loginUser } from '../utils/API';
 import Auth from '../utils/auth';
+import { saveBookIds } from '../utils/localStorage';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
@@ -29,16 +29,14 @@ const LoginForm = () => {
     }
 
     try {
-      await loginUser({variables: userFormData});
-
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
-
-      // const { token, user } = await response.json();
-      
-      // console.log(user);
-      // Auth.login(token);
+      // Code in collaboration with Lee Klusky
+      const { data } = await loginUser({ variables: { ...userFormData } });
+      // Creates an array with bookIds from user's profile and saves in localStorage when user logs in
+      const { savedBooks } = data.login.user;
+      const books = savedBooks.map((book) => book.bookId);
+      Auth.login(data.login.token);
+      saveBookIds(books);
+      window.location.assign("/");
     } catch (err) {
       console.error(err);
       setShowAlert(true);
