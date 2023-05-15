@@ -18,7 +18,7 @@ This project is part of a challenge from Full Stack Coding Bootcamp at the Unive
 1. Open [deployed application](https://bia-jorgensen-book-engine.herokuapp.com/)
 1. On the `Search For Books` page, enter a search term in the input field and click the `Submit Search` button
     * You will be presented with several search results; if you wish to save them, you will need to be logged in; if you are logged in, you can select `Save this Book!`
-1. If you wish to to access your account our to create one, select `Login/Sign Up`
+1. If you wish to to access your account or to create one, select `Login/Sign Up`
 1. Once you are logged in, you can see your saved books by selecting `See Your Books`
     * You can delete saved books by selecting `Delete this Book!` on this page.
 1. Books that are saved into your account will show as `This book has already been saved!` when you search for them again.
@@ -29,7 +29,7 @@ This project is part of a challenge from Full Stack Coding Bootcamp at the Unive
 
 University of Minnesota - Full Stack Coding Bootcamp<br>
 [Lee Klusky](https://github.com/lkalliance)<br>
-[Jamie Barton](https://www.youtube.com/@notrab)<br>
+[Jamie Barton](https://www.youtube.com/@notrab)
 <br><br>
 [Back to top](#book-search-engine-)
 
